@@ -1,0 +1,1 @@
+'use strict'; // activate strict mode: it has to be the very first statement of the script
