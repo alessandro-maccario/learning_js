@@ -1,5 +1,5 @@
 /* 
-CODING CHALLENGE # 1
+CODING CHALLENGE #1
 
 Given an array of forecasted maximum temperatures, the thermometer displays a string with these temperatures.
 
@@ -29,3 +29,61 @@ const printForecast = function (arr) {
 };
 
 console.log(printForecast(temp1));
+
+/* 
+CODING CHALLENGE #2
+
+Let's say you are building a time tracking application for freelancer. At some point in building this app,
+you need a function that receives daily work hours for a certain week, and returns:
+
+1. Total hours worked
+2. Average daily hours
+3. The day with the most hours worked
+4. Number of days worked
+5. Whether the week was full-time (worked 35 hours or more)
+
+TEST DATA = [17.5, 8, 6.5, 0, 8.5, 4, 0]
+*/
+
+// arr = [17.5, 8, 6.5, 0, 8.5, 4, 0];
+arr = [7.5, 8, 6.5, 0, 8.5, 4, 0];
+
+const workWeekSummary = function (arr) {
+  /* General form: array.reduce((accumulator, currentValue) => {
+        // return updated accumulator
+    }, initialValue)
+  */
+  // 1. Total hours worked
+  const initialValue = 0;
+  const totalHoursWorked = arr.reduce(
+    (accumulator, currentValue) => accumulator + currentValue,
+    initialValue,
+  );
+
+  // 2. Average daily hours
+  const averageHoursWorked = arr.reduce((a, b) => a + b) / arr.length;
+
+  // 3. The day with the most hours worked
+  const maxHoursWorked = Math.max(...arr);
+
+  // 4. Number of days worked
+  const numberOfDaysWorked = arr.filter((element) => element > 0).length;
+
+  // 5. Whether the week was full-time (worked 35 hours or more)
+  let fullWeekWorked;
+  if (totalHoursWorked >= 35) {
+    fullWeekWorked = true;
+  } else {
+    fullWeekWorked = false;
+  }
+
+  return {
+    totalHoursWorked,
+    averageHoursWorked,
+    maxHoursWorked,
+    numberOfDaysWorked,
+    fullWeekWorked,
+  };
+};
+
+console.log(workWeekSummary(arr));
