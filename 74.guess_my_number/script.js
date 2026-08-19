@@ -5,15 +5,14 @@
 // is called a "state" value because it is part of the "application state"
 let score = 20;
 let highscore = 0;
-console.log('random number is', pseudoRandomNumber);
 
 /**
  * Define the number to which the user's input will be compared to. Numbers from 0 to 20
  * @return {Number}
  */
-function pseudoRandomNumberCalculation() {
+let pseudoRandomNumberGenerator = function () {
   return Math.trunc(Math.random() * 21);
-}
+};
 
 /**
  * Display a custom message instead of the value in the class .message
@@ -23,14 +22,13 @@ function pseudoRandomNumberCalculation() {
 function displayMessage(message) {
   return (document.querySelector('.message').textContent = message);
 }
+let randomNumber = pseudoRandomNumberGenerator();
+console.log('random number is', randomNumber);
 
 // Anonymous handler function as it does not have a name
 document.querySelector('.check').addEventListener('click', function () {
   // store the guessed value into the guess variable. Convert to Number as almost any user inputs will be a string, by default
   const guess = Number(document.querySelector('.guess').value);
-
-  // define the pseudoRandomNumber
-  pseudoRandomNumber = pseudoRandomNumberCalculation();
 
   // check if the user inserted any value. Use isNaN if 0 is checked as 0 is a falsy value in JS
   if (isNaN(guess)) {
@@ -39,7 +37,7 @@ document.querySelector('.check').addEventListener('click', function () {
     console.log('Guess is ', guess);
 
     // check if the guess is the same as the random number, if yes, the user won
-    if (guess === pseudoRandomNumber) {
+    if (guess === randomNumber) {
       document.querySelector('body').style.backgroundColor = '#60b347';
       // increase the width of the correct number guessed
       document.querySelector('.number').style.width = '30rem';
@@ -52,13 +50,12 @@ document.querySelector('.check').addEventListener('click', function () {
       }
       // otherwise, the guess is wrong, therefore reduce the score and game over if score < 1
       // number too low!
-    } else if (guess !== pseudoRandomNumber) {
+    } else if (guess !== randomNumber) {
       if (score > 1) {
         // ternary operator to display a message depending if the guess is higher or lower than the secret number
-        document.querySelector('.message').textContent =
-          guess > pseudoRandomNumber
-            ? '⬆️ Number too high!'
-            : '⬇️ Number too low!';
+        displayMessage(
+          guess > randomNumber ? '⬆️ Number too high!' : '⬇️ Number too low!',
+        );
       }
       // in both cases, the guess is wrong and the score should be decreased
       --score;
@@ -91,8 +88,8 @@ document.querySelector('.again').addEventListener('click', function () {
   document.querySelector('.number').textContent = '?';
   displayMessage('Start guessing...');
   // reassign the pseudoRandomNumber to which the user's input will be compared to. Numbers from 0 to 20
-  pseudoRandomNumber = pseudoRandomNumberCalculation();
-  console.log('New random number is: ', pseudoRandomNumber);
+  randomNumber = pseudoRandomNumberGenerator();
+  console.log('New random number is: ', randomNumber);
   // restore background color
   document.querySelector('body').style.backgroundColor = '#222';
   // restore the width of the hidden random number
