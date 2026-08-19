@@ -9,14 +9,14 @@ console.log('random number is', pseudoRandomNumber);
 
 /**
  * Define the number to which the user's input will be compared to. Numbers from 0 to 20
- * @return
+ * @return {Number}
  */
 function pseudoRandomNumberCalculation() {
   return Math.trunc(Math.random() * 21);
 }
 
 /**
- * Display a custom message instead of the class .message
+ * Display a custom message instead of the value in the class .message
  * @param  {String} message The string to be displayed
  * @return {String}      Output the message string
  */
