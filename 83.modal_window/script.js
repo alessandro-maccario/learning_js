@@ -32,7 +32,7 @@ overlay.addEventListener('click', closeModal);
 
 // listen to ESC event, which is a global event because it does not happen on one specific spot, but on the whole document
 document.addEventListener('keydown', function (event) {
-  if (event.key === 'Escape') {
+  if (event.key === 'Escape' && !modal.classList.contains('hidden')) {
     closeModal();
   }
 });
