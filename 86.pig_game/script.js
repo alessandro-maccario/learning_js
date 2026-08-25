@@ -1,9 +1,12 @@
 'use strict';
 
 // select elements
-let score0Element = document.querySelector('#score--0');
-let score1Element = document.querySelector('#score--1');
+const score0Element = document.querySelector('#score--0');
+const score1Element = document.querySelector('#score--1');
 const diceElement = document.querySelector('.dice');
+const btnNew = document.querySelector('.btn--new');
+const btnRoll = document.querySelector('.btn--roll');
+const btnHold = document.querySelector('.btn--hold');
 
 // starting conditions
 // set the initial condition of score elements to be 0
@@ -22,19 +25,26 @@ let pseudoRandomNumberGenerator = function () {
 
 // GAME FUNCTIONALITIES
 // 1. USER ROLLS DICE
-document.querySelector('.btn--roll').addEventListener('click', function () {
+btnRoll.addEventListener('click', function () {
   // store the random dice number generated into the randomDiceNumber variable
   let randomDiceNumber = pseudoRandomNumberGenerator();
   console.log('random dice number: ', randomDiceNumber);
 
   // grab the current score for player 1
-  let currentScore = Number(document.getElementById('current--0').textContent);
+  let currentScore0 = Number(document.getElementById('current--0').textContent);
+  // grab the current score for player 2
+  let currentScore1 = Number(document.getElementById('current--1').textContent);
 
   if (randomDiceNumber !== 1) {
     // 1. add the random number to the score value of the player
     // 2. display the new score
     document.getElementById('current--0').textContent =
-      Number(currentScore) + Number(randomDiceNumber);
+      Number(currentScore0) + Number(randomDiceNumber);
+
+    // 3. display the dice face
+    document.querySelector('.dice').src =
+      'dice' + '-' + String(randomDiceNumber) + '.png';
+    diceElement.classList.remove('hidden');
   } else {
     // if it is equal to 1, change player
   }
