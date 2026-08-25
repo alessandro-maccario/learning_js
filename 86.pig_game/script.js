@@ -56,18 +56,21 @@ btnRoll.addEventListener('click', function () {
       .querySelector(`.player--${activePlayer}`)
       .classList.remove('player--active');
 
-    // if the dice value is equal to 1, change player
-    document.querySelector('.dice').src = `dice-${randomDiceNumber}.png`;
-    // switch active player
-    activePlayer = activePlayer === 0 ? 1 : 0;
     // reset the score for the new player before adding the new dice roll
     currentScore = 0;
     // display the new score dynamically based on the current active player
     document.getElementById(`current--${activePlayer}`).textContent =
       currentScore;
+
+    // switch active player
+    activePlayer = activePlayer === 0 ? 1 : 0;
+
     document
       .querySelector(`.player--${activePlayer}`)
       .classList.add('player--active');
+
+    // if the dice value is equal to 1, change player
+    document.querySelector('.dice').src = `dice-${randomDiceNumber}.png`;
   }
 });
 
