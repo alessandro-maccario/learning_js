@@ -85,7 +85,7 @@ document.querySelector('.btn--hold').addEventListener('click', function () {
   totalScore += currentScore;
   totalScoreElementActivePlayer.textContent = totalScore;
 
-  if (totalScoreElementActivePlayer.textContent >= 10) {
+  if (totalScoreElementActivePlayer.textContent >= 50) {
     alert(`Player ${activePlayer + 1} wins!`);
 
     // reset all the variables
@@ -119,5 +119,9 @@ document.querySelector('.btn--hold').addEventListener('click', function () {
 
 // 3. USER RESETS GAME
 document.querySelector('.btn--new').addEventListener('click', function () {
-  // set all scores to 0 and set player1 as starting player
+  // reset all the variables available on the screen
+  score0Element.textContent = 0;
+  score1Element.textContent = 0;
+  current0Element.textContent = 0;
+  current1ELement.textContent = 0;
 });
