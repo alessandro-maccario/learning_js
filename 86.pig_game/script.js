@@ -58,7 +58,7 @@ btnRoll.addEventListener('click', function () {
 
     // reset the score for the new player before adding the new dice roll
     currentScore = 0;
-    // display the new score dynamically based on the current active player
+    // display the new current score dynamically based on the current active player
     document.getElementById(`current--${activePlayer}`).textContent =
       currentScore;
 
@@ -78,6 +78,43 @@ btnRoll.addEventListener('click', function () {
 document.querySelector('.btn--hold').addEventListener('click', function () {
   // add current score to total score
   // if score >= 100 current player wins!
+  const totalScoreElementActivePlayer = document.getElementById(
+    `score--${activePlayer}`,
+  );
+  let totalScore = Number(totalScoreElementActivePlayer.textContent);
+  totalScore += currentScore;
+  totalScoreElementActivePlayer.textContent = totalScore;
+
+  if (totalScoreElementActivePlayer.textContent >= 10) {
+    alert(`Player ${activePlayer + 1} wins!`);
+
+    // reset all the variables
+    totalScoreElementActivePlayer.textContent = 0;
+    totalScore = 0;
+    currentScore = 0;
+    score0Element.textContent = 0;
+    score1Element.textContent = 0;
+    current0Element.textContent = 0;
+    current1ELement.textContent = 0;
+  }
+
+  // switch player focus by first removing the player active class, then removing it
+  document
+    .querySelector(`.player--${activePlayer}`)
+    .classList.remove('player--active');
+
+  // reset the score for the new player before adding the new dice roll
+  currentScore = 0;
+  // display the new current score dynamically based on the current active player
+  document.getElementById(`current--${activePlayer}`).textContent =
+    currentScore;
+
+  // switch active player
+  activePlayer = activePlayer === 0 ? 1 : 0;
+
+  document
+    .querySelector(`.player--${activePlayer}`)
+    .classList.add('player--active');
 });
 
 // 3. USER RESETS GAME
