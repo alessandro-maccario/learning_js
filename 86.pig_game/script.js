@@ -12,17 +12,8 @@ const btnNew = document.querySelector('.btn--new');
 const btnRoll = document.querySelector('.btn--roll');
 const btnHold = document.querySelector('.btn--hold');
 
-// starting conditions
-// set the initial condition of score elements to be 0
-score0Element.textContent = 0;
-score1Element.textContent = 0;
-// define current score for player 1 and player 2
-let scores = [0, 0];
-let currentScore = 0;
-let activePlayer = 0;
-let playingActive = true; // define if the game is playable
-// at the beginning of the game, add hidden class to the dice picture
-diceElement.classList.add('hidden');
+// define global variables
+let scores, currentScore, activePlayer, playingActive; // define if the game is playable
 
 /**
  * Define a random dice number between 1 and 6
@@ -35,7 +26,17 @@ let pseudoRandomNumberGenerator = function () {
 /**
  * Reset all variables before starting a new game
  */
-function resetVariables() {
+const init = function () {
+  // starting conditions
+  // set the initial condition of score elements to be 0
+  score0Element.textContent = 0;
+  score1Element.textContent = 0;
+  // define current score for player 1 and player 2
+  scores = [0, 0];
+  currentScore = 0;
+  activePlayer = 0;
+  playingActive = true; // define if the game is playable
+
   // reset all the variables
   scores = [0, 0];
   score0Element.textContent = 0;
@@ -43,15 +44,25 @@ function resetVariables() {
   current0Element.textContent = 0;
   current1ELement.textContent = 0;
   currentScore = 0;
+
+  // at the beginning of the game, add hidden class to the dice picture
+  diceElement.classList.add('hidden');
+  player0.classList.remove('player--winner');
+  player1.classList.remove('player--winner');
+  player0.classList.add('player--active');
+  player1.classList.remove('player--active');
+
   return (
     scores,
     score0Element,
     score1Element,
     current0Element,
-    current1ELement,
-    currentScore
+    current1ELement
   );
-}
+};
+
+// initialize the game
+init();
 
 /**
  * Player switching function
@@ -133,13 +144,6 @@ document.querySelector('.btn--hold').addEventListener('click', function () {
       document
         .querySelector(`.player--${activePlayer}`)
         .classList.remove('player--active');
-
-      // reset all the variables
-      resetVariables();
-
-      // setTimeout(() => {
-      //   alert(`Player ${activePlayer + 1} wins!`);
-      // }, 0);
     } else {
       // switch player
       activePlayer = switchPlayer(activePlayer);
@@ -148,19 +152,4 @@ document.querySelector('.btn--hold').addEventListener('click', function () {
 });
 
 // 3. USER RESETS GAME
-document.querySelector('.btn--new').addEventListener('click', function () {
-  // reset all the variables available on the screen
-  resetVariables();
-  // assign a player win class to the player that won
-  document
-    .querySelector(`.player--${activePlayer}`)
-    .classList.remove('player--winner');
-  document
-    .querySelector(`.player--${activePlayer}`)
-    .classList.add('player--active');
-
-  // switch player
-  activePlayer = switchPlayer(activePlayer);
-  // the game becomes playable again
-  playingActive = true;
-});
+document.querySelector('.btn--new').addEventListener('click', init);
