@@ -20,6 +20,7 @@ score1Element.textContent = 0;
 let scores = [0, 0];
 let currentScore = 0;
 let activePlayer = 0;
+let playingActive = true; // define if the game is playable
 // at the beginning of the game, add hidden class to the dice picture
 diceElement.classList.add('hidden');
 
@@ -41,12 +42,14 @@ function resetVariables() {
   score1Element.textContent = 0;
   current0Element.textContent = 0;
   current1ELement.textContent = 0;
+  currentScore = 0;
   return (
     scores,
     score0Element,
     score1Element,
     current0Element,
-    current1ELement
+    current1ELement,
+    currentScore
   );
 }
 
@@ -83,26 +86,28 @@ const switchPlayer = function (currentActivePlayer) {
 // GAME FUNCTIONALITIES
 // 1. USER ROLLS DICE
 btnRoll.addEventListener('click', function () {
-  // store the random dice number generated into the randomDiceNumber variable
-  let randomDiceNumber = pseudoRandomNumberGenerator();
+  if (playingActive) {
+    // store the random dice number generated into the randomDiceNumber variable
+    let randomDiceNumber = pseudoRandomNumberGenerator();
 
-  // remove the hidden class to display the first dice
-  diceElement.classList.remove('hidden');
-  // display the dice face
-  document.querySelector('.dice').src = `dice-${randomDiceNumber}.png`;
-
-  if (randomDiceNumber !== 1) {
-    // 1. add the random number to the score value of the player
-    currentScore += randomDiceNumber;
-    // 2. display the new score dynamically based on the current active player
-    document.getElementById(`current--${activePlayer}`).textContent =
-      currentScore;
-  } else {
-    // switch player
-    activePlayer = switchPlayer(activePlayer);
-
-    // if the dice value is equal to 1, change player
+    // remove the hidden class to display the first dice
+    diceElement.classList.remove('hidden');
+    // display the dice face
     document.querySelector('.dice').src = `dice-${randomDiceNumber}.png`;
+
+    if (randomDiceNumber !== 1) {
+      // 1. add the random number to the score value of the player
+      currentScore += randomDiceNumber;
+      // 2. display the new score dynamically based on the current active player
+      document.getElementById(`current--${activePlayer}`).textContent =
+        currentScore;
+    } else {
+      // switch player
+      activePlayer = switchPlayer(activePlayer);
+
+      // if the dice value is equal to 1, change player
+      document.querySelector('.dice').src = `dice-${randomDiceNumber}.png`;
+    }
   }
 });
 
@@ -111,25 +116,51 @@ document.querySelector('.btn--hold').addEventListener('click', function () {
   // add current score to total score
   // if score >= 50 current player wins!
 
-  // add to the current score element of the current active player the currentScore
-  scores[activePlayer] += currentScore;
-  // display the current score at the current active player score position on the screen
-  document.getElementById(`score--${activePlayer}`).textContent =
-    scores[activePlayer];
+  if (playingActive) {
+    // add to the current score element of the current active player the currentScore
+    scores[activePlayer] += currentScore;
+    // display the current score at the current active player score position on the screen
+    document.getElementById(`score--${activePlayer}`).textContent =
+      scores[activePlayer];
 
-  if (scores[activePlayer] >= 50) {
-    alert(`Player ${activePlayer + 1} wins!`);
+    if (scores[activePlayer] >= 50) {
+      // the game becomes not playable anymore
+      playingActive = false;
+      // assign a player win class to the player that won
+      document
+        .querySelector(`.player--${activePlayer}`)
+        .classList.add('player--winner');
+      document
+        .querySelector(`.player--${activePlayer}`)
+        .classList.remove('player--active');
 
-    // reset all the variables
-    resetVariables();
+      // reset all the variables
+      resetVariables();
+
+      // setTimeout(() => {
+      //   alert(`Player ${activePlayer + 1} wins!`);
+      // }, 0);
+    } else {
+      // switch player
+      activePlayer = switchPlayer(activePlayer);
+    }
   }
-
-  // switch player
-  activePlayer = switchPlayer(activePlayer);
 });
 
 // 3. USER RESETS GAME
 document.querySelector('.btn--new').addEventListener('click', function () {
   // reset all the variables available on the screen
   resetVariables();
+  // assign a player win class to the player that won
+  document
+    .querySelector(`.player--${activePlayer}`)
+    .classList.remove('player--winner');
+  document
+    .querySelector(`.player--${activePlayer}`)
+    .classList.add('player--active');
+
+  // switch player
+  activePlayer = switchPlayer(activePlayer);
+  // the game becomes playable again
+  playingActive = true;
 });
