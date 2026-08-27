@@ -17,7 +17,7 @@ const btnHold = document.querySelector('.btn--hold');
 score0Element.textContent = 0;
 score1Element.textContent = 0;
 // define current score for player 1 and player 2
-const scores = [0, 0];
+let scores = [0, 0];
 let currentScore = 0;
 let activePlayer = 0;
 // at the beginning of the game, add hidden class to the dice picture
@@ -29,6 +29,55 @@ diceElement.classList.add('hidden');
  */
 let pseudoRandomNumberGenerator = function () {
   return Math.trunc(Math.random() * 6) + 1;
+};
+
+/**
+ * Reset all variables before starting a new game
+ */
+function resetVariables() {
+  // reset all the variables
+  scores = [0, 0];
+  score0Element.textContent = 0;
+  score1Element.textContent = 0;
+  current0Element.textContent = 0;
+  current1ELement.textContent = 0;
+  return (
+    scores,
+    score0Element,
+    score1Element,
+    current0Element,
+    current1ELement
+  );
+}
+
+/**
+ * Player switching function
+ */
+const switchPlayer = function (currentActivePlayer) {
+  // reset the score for the new player before adding the new dice roll
+  currentScore = 0;
+
+  // switch player focus by first removing the player active class, then removing it
+  document
+    .querySelector(`.player--${currentActivePlayer}`)
+    .classList.remove('player--active');
+
+  // reset current score of the current player before switching to the new one
+  document.getElementById(`current--${currentActivePlayer}`).textContent =
+    currentScore;
+
+  // switch active player
+  const nextPlayer = currentActivePlayer === 0 ? 1 : 0;
+
+  // define the active player
+  document
+    .querySelector(`.player--${nextPlayer}`)
+    .classList.add('player--active');
+
+  // display the new current score dynamically based on the current active player
+  document.getElementById(`current--${nextPlayer}`).textContent = currentScore;
+
+  return nextPlayer;
 };
 
 // GAME FUNCTIONALITIES
@@ -48,26 +97,9 @@ btnRoll.addEventListener('click', function () {
     // 2. display the new score dynamically based on the current active player
     document.getElementById(`current--${activePlayer}`).textContent =
       currentScore;
-    console.log(randomDiceNumber);
   } else {
-    console.log(randomDiceNumber);
-    // switch player focus by first removing the player active class, then removing it
-    document
-      .querySelector(`.player--${activePlayer}`)
-      .classList.remove('player--active');
-
-    // reset the score for the new player before adding the new dice roll
-    currentScore = 0;
-    // display the new current score dynamically based on the current active player
-    document.getElementById(`current--${activePlayer}`).textContent =
-      currentScore;
-
-    // switch active player
-    activePlayer = activePlayer === 0 ? 1 : 0;
-
-    document
-      .querySelector(`.player--${activePlayer}`)
-      .classList.add('player--active');
+    // switch player
+    activePlayer = switchPlayer(activePlayer);
 
     // if the dice value is equal to 1, change player
     document.querySelector('.dice').src = `dice-${randomDiceNumber}.png`;
@@ -77,51 +109,27 @@ btnRoll.addEventListener('click', function () {
 // 2. USER HOLDS DICE
 document.querySelector('.btn--hold').addEventListener('click', function () {
   // add current score to total score
-  // if score >= 100 current player wins!
-  const totalScoreElementActivePlayer = document.getElementById(
-    `score--${activePlayer}`,
-  );
-  let totalScore = Number(totalScoreElementActivePlayer.textContent);
-  totalScore += currentScore;
-  totalScoreElementActivePlayer.textContent = totalScore;
+  // if score >= 50 current player wins!
 
-  if (totalScoreElementActivePlayer.textContent >= 50) {
+  // add to the current score element of the current active player the currentScore
+  scores[activePlayer] += currentScore;
+  // display the current score at the current active player score position on the screen
+  document.getElementById(`score--${activePlayer}`).textContent =
+    scores[activePlayer];
+
+  if (scores[activePlayer] >= 50) {
     alert(`Player ${activePlayer + 1} wins!`);
 
     // reset all the variables
-    totalScoreElementActivePlayer.textContent = 0;
-    totalScore = 0;
-    currentScore = 0;
-    score0Element.textContent = 0;
-    score1Element.textContent = 0;
-    current0Element.textContent = 0;
-    current1ELement.textContent = 0;
+    resetVariables();
   }
 
-  // switch player focus by first removing the player active class, then removing it
-  document
-    .querySelector(`.player--${activePlayer}`)
-    .classList.remove('player--active');
-
-  // reset the score for the new player before adding the new dice roll
-  currentScore = 0;
-  // display the new current score dynamically based on the current active player
-  document.getElementById(`current--${activePlayer}`).textContent =
-    currentScore;
-
-  // switch active player
-  activePlayer = activePlayer === 0 ? 1 : 0;
-
-  document
-    .querySelector(`.player--${activePlayer}`)
-    .classList.add('player--active');
+  // switch player
+  activePlayer = switchPlayer(activePlayer);
 });
 
 // 3. USER RESETS GAME
 document.querySelector('.btn--new').addEventListener('click', function () {
   // reset all the variables available on the screen
-  score0Element.textContent = 0;
-  score1Element.textContent = 0;
-  current0Element.textContent = 0;
-  current1ELement.textContent = 0;
+  resetVariables();
 });
