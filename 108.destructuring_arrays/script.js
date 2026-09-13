@@ -22,34 +22,64 @@
 //   'garlic',
 // ]);
 
-// // Data needed for first part of the section
-// const restaurant = {
-//   name: 'Classico Italiano',
-//   location: 'Via Angelo Tavanti 23, Firenze, Italy',
-//   categories: ['Italian', 'Pizzeria', 'Vegetarian', 'Organic'],
-//   starterMenu: ['Focaccia', 'Bruschetta', 'Garlic Bread', 'Caprese Salad'],
-//   mainMenu: ['Pizza', 'Pasta', 'Risotto'],
+// Data needed for first part of the section
+const restaurant = {
+  name: 'Classico Italiano',
+  location: 'Via Angelo Tavanti 23, Firenze, Italy',
+  categories: ['Italian', 'Pizzeria', 'Vegetarian', 'Organic'],
+  starterMenu: ['Focaccia', 'Bruschetta', 'Garlic Bread', 'Caprese Salad'],
+  mainMenu: ['Pizza', 'Pasta', 'Risotto'],
 
-//   openingHours: {
-//     thu: {
-//       open: 12,
-//       close: 22,
-//     },
-//     fri: {
-//       open: 11,
-//       close: 23,
-//     },
-//     sat: {
-//       open: 0, // Open 24 hours
-//       close: 24,
-//     },
-//   },
-// };
+  openingHours: {
+    thu: {
+      open: 12,
+      close: 22,
+    },
+    fri: {
+      open: 11,
+      close: 23,
+    },
+    sat: {
+      open: 0, // Open 24 hours
+      close: 24,
+    },
+  },
+};
 
+// *****************************
+// Destructuring Objects
+const { name, openingHours, categories } = restaurant;
+
+console.log(
+  'Restaurant Name:',
+  name,
+  '\nOpening Hours:',
+  openingHours,
+  '\nCategories:',
+  categories,
+);
+
+// Destructuring Objects: give the object properties new variable names
+const {
+  name: restaurantName,
+  openingHours: hours,
+  categories: tags,
+} = restaurant;
+// Now, we can reference those variable names
+console.log(
+  'New variable names for the same object property:',
+  restaurantName,
+  hours,
+  tags,
+);
+
+// *****************************
+// Destructuring Arrays
 // 1. Assignment: https://assignments-c03.jonas.io/introduction.html#introduction
 // It's an array of books related to computer science, math and business;
 // Each book is represented by an object;
 // Missing properties, different data types for same properties or duplicates are intentional;
+// Copy this data to your code editor, and give yourself some time to familiarize with it before you start working on assignments.
 
 const books = [
   {
@@ -275,3 +305,31 @@ const books = [
     highlighted: true,
   },
 ];
+
+// console.log(
+//   'Wrong way of destructuring the json array',
+//   '\nTitle:',
+//   books[0].title,
+//   '\nAuthor',
+//   books[0].author,
+//   '\nLanguage:',
+//   books[0].language,
+//   '\nTotal number of books:',
+//   books.length,
+// );
+
+// // destructure object taking out the first 4 elements
+// const [firstBook, secondBook, thirdBook, fourthBook, ...restOfTheBooks] = books;
+// console.log(
+//   'Correct way of destructuring the json array',
+//   '\nFirst book:',
+//   firstBook.title,
+//   '\nSecond book:',
+//   secondBook.title,
+//   '\nThird book:',
+//   thirdBook.title,
+//   '\nFourth book:',
+//   fourthBook.title,
+//   '\nRest of the books:',
+//   restOfTheBooks,
+// );
