@@ -333,3 +333,15 @@ const books = [
 //   '\nRest of the books:',
 //   restOfTheBooks,
 // );
+
+// Spread operator
+
+const arr = [7, 8, 9];
+const arr2 = [1, 2, 3, 4, 5, 6, ...arr];
+console.log(arr2);
+
+// Merge two arrays together
+const arrMerge1 = [1, 2, 3];
+const arrMerge2 = [4, 5, 6];
+const arrMerged = [...arrMerge1, ...arrMerge2];
+console.log('New array merged is:', arrMerged);
