@@ -68,31 +68,103 @@ const game = {
 // Task completion
 
 // Task 1
-const [players1, players2] = [...game.players];
+const [players1, players2] = game.players;
 
-console.log(players1);
-console.log(players2);
+// console.log('Players 1:', players1);
+// console.log('Players 2:', players2);
 
-// TODO: Task 2
-const [gk, ...fieldPlayers] = [players1[0], ...players1.slice(1)]; // The shift() method of Array instances removes the first element from an array and returns that removed element.
-console.log('Goalkeeper Team 1:', gk, '\nOther players:', fieldPlayers);
+// Task 2
+const [gk, ...fieldPlayers] = players1; // gk refers to the first element of the array, while ...fieldPlayers consider the rest of the array (excluding the first element already extracted)
+// console.log('Goalkeeper Team 1:', gk, '\nOther players:', fieldPlayers);
 
-// TODO: Task 3
+// Task 3
+// destructuring players1 and players2
 const allPlayers = [...players1, ...players2];
-console.log('\nAll players:', allPlayers);
+// console.log('\nAll players:', allPlayers);
 
-// TODO: Task 4
+// Task 4
 const players1Final = [...players1, 'Thiago', 'Coutinho', 'Perisic'];
-console.log('\nNew Players Final:', players1Final);
+// console.log('\nNew Players Final:', players1Final);
 
-// TODO: Task 5
-const {team1, x: draw, team2} = {...game.odds}
-console.log("Team 1, draw, Team2:", team1, draw, team2)
-// TODO: Task 6
+// Task 5
+// define a custom name for the x variable by simply assigning it after the colon and destructuring the object
+const { team1, x: draw, team2 } = { ...game.odds };
+// console.log('Team 1, draw, Team2:', team1, draw, team2);
 
-function() {
+// Task 6
+const printGoals = function (...playerNames) {
+  // print the total number of point scored based on the amount of names passed into the function
+  // console.log(`Goals scored: ${playerNames.length}`);
+};
+// printGoals('Davies', 'Muller', 'Lewandowski', 'Kimmich');
+// printGoals(...game.scored);
 
+// Task 7
+// using short-circuiting and considering that a non-empty string is always truthy
+// console.log(
+// (game.odds.team1 < game.odds.team2 &&
+// console.log('Team 1 is more likely to win!')) ||
+// (game.odds.team1 > game.odds.team2 &&
+// console.log('Team 2 is more likely to win!')),
+// );
 
+///////////////////////////////////////
+// Coding Challenge #2
+
+/* 
+Let's continue with our football betting app!
+
+1. Loop over the game.scored array and print each player name to the console, along with the goal number (Example: "Goal 1: Lewandowski")
+2. Use a loop to calculate the average odd and log it to the console (We already studied how to calculate averages, you can go check if you don't remember)
+3. Print the 3 odds to the console, but in a nice formatted way, exactly like this:
+      Odd of victory Bayern Munich: 1.33
+      Odd of draw: 3.25
+      Odd of victory Borrussia Dortmund: 6.5
+Get the team names directly from the game object, don't hardcode them (except for "draw"). HINT: Note how the odds and the game objects have the same property names 😉
+
+BONUS: Create an object called 'scorers' which contains the names of the players who scored as properties, and the number of goals as the value. In this game, it will look like this:
+      {
+        Gnarby: 1,
+        Hummels: 1,
+        Lewandowski: 2
+      }
+
+GOOD LUCK 😀
+*/
+
+// TODO: TASK 1
+for (const [i, goalPlayer] of Object.entries(game.scored)) {
+  console.log(`Goal ${Number(i) + 1}: ${goalPlayer}`);
 }
 
-// TODO: Task 7
+// TODO: TASK 2
+let avgOdd = 0;
+for (const odd of Object.entries(game.odds)) {
+  console.log('Current Odd:', odd[1]);
+  avgOdd += odd[1];
+}
+console.log(
+  `Average Odds: ${(avgOdd / Object.keys(game.odds).length).toFixed(2)}`,
+);
+
+console.log('---');
+// TODO: TASK 3
+for (const odd of Object.entries(game.odds)) {
+  // ternary operator if the match between the team1 and team2 names exist from the odds object to the team1 and team2 game object, then "Odd of victory", otherwise "Odd of draw"
+  console.log(
+    game[odd[0]]
+      ? `Odd of victory ${game[odd[0]]}: ${odd[1]}`
+      : `Odd of draw: ${odd[1]}`,
+  );
+}
+
+// TODO: Bonus Task
+
+scorers = {};
+console.log(Object.values(game.scored));
+
+for (const scorer of Object.values(game.scored)) {
+  scorers[scorer] = (scorers[scorer] ?? 0) + 1;
+}
+
+console.log(scorers);
